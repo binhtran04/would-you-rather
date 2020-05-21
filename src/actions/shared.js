@@ -1,5 +1,5 @@
-import { getInitialData, saveQuestionAnswer } from '../utils/api';
-import { receiveQuestions, updateQuestion } from './questions';
+import { getInitialData, saveQuestionAnswer, saveQuestion } from '../utils/api';
+import { receiveQuestions, updateQuestion, addQuestion } from './questions';
 import { receiveUsers, updateUser } from './users';
 import { setAuthedUser } from './authedUser';
 import { showLoading, hideLoading } from 'react-redux-loading';
@@ -35,3 +35,18 @@ export const handleSaveQuestionAnswer = ({ qid, answer }) => {
     });
   };
 };
+
+export function handleSaveQuestion(question) {
+  return (dispatch, getState) => {
+    dispatch(showLoading());
+    const { users } = getState();
+    const user = { ...users[question.author] };
+    user.questions.push(question.id);
+
+    return saveQuestion(question).then((response) => {
+      dispatch(addQuestion(response));
+      dispatch(updateUser(user));
+      dispatch(hideLoading());
+    });
+  };
+}
