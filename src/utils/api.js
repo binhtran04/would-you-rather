@@ -8,3 +8,7 @@ export const getInitialData = () => {
     };
   });
 };
+
+export const saveQuestionAnswer = ({ authedUser, qid, answer }) => {
+  return _saveQuestionAnswer({ authedUser, qid, answer });
+};

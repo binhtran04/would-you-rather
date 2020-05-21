@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Question = ({ question }) => {
-  console.log('Q', question);
   const classes = useStyles();
 
   return (

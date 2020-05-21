@@ -9,5 +9,10 @@ export function formatQuestion(question, author, authedUser) {
     optionTwo,
     authorName: name,
     authorAvatar: avatarURL,
+    authedUserAnswer: optionOne.votes.includes(authedUser)
+      ? 'optionOne'
+      : optionTwo.votes.includes(authedUser)
+      ? 'optionTwo'
+      : null,
   };
 }
