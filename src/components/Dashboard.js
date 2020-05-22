@@ -6,14 +6,14 @@ import { Typography } from '@material-ui/core';
 class Dashboard extends Component {
   render() {
     return (
-      <div>
-        <Typography component="h2" variant="h2">
+      <>
+        <Typography component="h2" variant="h2" gutterBottom>
           Questions
         </Typography>
         {this.props.questionIds.map((id) => (
           <Question id={id} key={id} />
         ))}
-      </div>
+      </>
     );
   }
 }

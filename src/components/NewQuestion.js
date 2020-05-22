@@ -4,19 +4,13 @@ import {
   makeStyles,
   Card,
   CardHeader,
-  CardMedia,
   CardContent,
   Typography,
   FormControl,
-  FormLabel,
-  RadioGroup,
-  Radio,
-  FormControlLabel,
-  TextField,
+  FormHelperText,
   Button,
   Input,
 } from '@material-ui/core';
-import CheckIcon from '@material-ui/icons/Check';
 import { connect } from 'react-redux';
 import { handleSaveQuestion } from '../actions/shared';
 
@@ -51,18 +45,23 @@ const useStyles = makeStyles((theme) => ({
 const NewQuestion = (props) => {
   const classes = useStyles();
   const [form, setForm] = React.useState({ optionOneText: '', optionTwoText: '' });
+  const [error, setError] = React.useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    props.dispatch(
-      handleSaveQuestion({
-        optionOneText: form.optionOneText,
-        optionTwoText: form.optionTwoText,
-        author: props.authedUser,
-      })
-    );
+    if (form.optionOneText && form.optionTwoText) {
+      props.dispatch(
+        handleSaveQuestion({
+          optionOneText: form.optionOneText,
+          optionTwoText: form.optionTwoText,
+          author: props.authedUser,
+        })
+      );
 
-    props.history.push('/');
+      props.history.push('/');
+    }
+
+    setError(true);
   };
 
   const handleChange = (event) => {
@@ -100,6 +99,7 @@ const NewQuestion = (props) => {
               onChange={handleChange}
             />
           </FormControl>
+          {error && <FormHelperText error>Please fill both options</FormHelperText>}
           <Button type="submit" variant="outlined" color="primary" className={classes.button}>
             Submit
           </Button>

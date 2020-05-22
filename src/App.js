@@ -9,6 +9,7 @@ import Nav from './components/Nav';
 import PollPage from './components/PollPage';
 import NewQuestion from './components/NewQuestion';
 import './App.css';
+import LeaderBoard from './components/LeaderBoard';
 
 class App extends React.Component {
   componentDidMount() {
@@ -18,17 +19,20 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <Container fixed maxWidth="md">
+        <>
           <Nav />
           <LoadingBar />
-          {this.props.loading === true ? null : (
-            <div>
-              <Route path="/" exact component={Dashboard} />
-              <Route path="/questions/:id" exact component={PollPage} />
-              <Route path="/new" exact component={NewQuestion} />
-            </div>
-          )}
-        </Container>
+          <Container fixed maxWidth="sm">
+            {this.props.loading === true ? null : (
+              <>
+                <Route path="/" exact component={Dashboard} />
+                <Route path="/questions/:id" component={PollPage} />
+                <Route path="/add" component={NewQuestion} />
+                <Route path="/leaderboard" component={LeaderBoard} />
+              </>
+            )}
+          </Container>
+        </>
       </BrowserRouter>
     );
   }
