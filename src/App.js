@@ -8,8 +8,9 @@ import Dashboard from './components/Dashboard';
 import Nav from './components/Nav';
 import PollPage from './components/PollPage';
 import NewQuestion from './components/NewQuestion';
-import './App.css';
 import LeaderBoard from './components/LeaderBoard';
+import Signin from './components/Signin';
+import './App.css';
 
 class App extends React.Component {
   componentDidMount() {
@@ -29,6 +30,7 @@ class App extends React.Component {
                 <Route path="/questions/:id" component={PollPage} />
                 <Route path="/add" component={NewQuestion} />
                 <Route path="/leaderboard" component={LeaderBoard} />
+                <Route path="/signin" component={Signin} />
               </>
             )}
           </Container>
