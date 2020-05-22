@@ -42,9 +42,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Signin = ({ users, dispatch, isLogedin }) => {
+const Signin = ({ users, dispatch, isLogedin, location }) => {
   const classes = useStyles();
-  const [authedUser, setAuthedUser] = React.useState(null);
+  const [authedUser, setAuthedUser] = React.useState('');
   const [error, setError] = React.useState(false);
 
   const handleChange = (event) => {
@@ -62,7 +62,7 @@ const Signin = ({ users, dispatch, isLogedin }) => {
   };
 
   if (isLogedin) {
-    return <Redirect to="/" />;
+    return <Redirect to={location.state.from} />;
   }
   return (
     <Card className={classes.root}>

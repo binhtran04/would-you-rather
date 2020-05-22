@@ -17,12 +17,12 @@ import {
   Button,
 } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
+import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    marginBottom: '1rem',
   },
   header: {
     width: '100%',
@@ -44,12 +44,14 @@ const useStyles = makeStyles((theme) => ({
 const PollPage = (props) => {
   const { question } = props;
 
+  if (!question) return <Redirect to="/404" />;
+
   return question.authedUserAnswer ? <PollResult {...props} /> : <PollAnswerQuestion {...props} />;
 };
 
 const PollAnswerQuestion = ({ question, ...props }) => {
   const classes = useStyles();
-  const [answer, setAnswer] = React.useState(null);
+  const [answer, setAnswer] = React.useState('');
   const [error, setError] = React.useState(false);
 
   const handleRadioChange = (event) => {
@@ -59,7 +61,7 @@ const PollAnswerQuestion = ({ question, ...props }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (answer === null) {
+    if (!answer) {
       setError(true);
     } else {
       setError(false);
@@ -146,6 +148,9 @@ const PollResult = ({ question }) => {
 function mapStateToProps({ authedUser, users, questions }, props) {
   const { id } = props.match.params;
   const question = questions[id];
+
+  if (!question) return { authedUser, question: null };
+
   const author = users[question.author];
 
   return {
