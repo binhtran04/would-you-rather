@@ -10,7 +10,7 @@ import {
   CardContent,
   Typography,
   FormControl,
-  FormLabel,
+  FormHelperText,
   RadioGroup,
   Radio,
   FormControlLabel,
@@ -50,14 +50,21 @@ const PollPage = (props) => {
 const PollAnswerQuestion = ({ question, ...props }) => {
   const classes = useStyles();
   const [answer, setAnswer] = React.useState(null);
+  const [error, setError] = React.useState(false);
 
   const handleRadioChange = (event) => {
     setAnswer(event.target.value);
+    setError(false);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    props.dispatch(handleSaveQuestionAnswer({ qid: question.id, answer }));
+    if (answer === null) {
+      setError(true);
+    } else {
+      setError(false);
+      props.dispatch(handleSaveQuestionAnswer({ qid: question.id, answer }));
+    }
   };
 
   return (
@@ -69,11 +76,12 @@ const PollAnswerQuestion = ({ question, ...props }) => {
           Would you rather ...
         </Typography>
         <form onSubmit={handleSubmit}>
-          <FormControl component="fieldset" className={classes.formControl}>
+          <FormControl component="fieldset" className={classes.formControl} error={error}>
             <RadioGroup aria-label="quiz" name="quiz" value={answer} onChange={handleRadioChange}>
               <FormControlLabel value="optionOne" control={<Radio />} label={question.optionOne.text} />
               <FormControlLabel value="optionTwo" control={<Radio />} label={question.optionTwo.text} />
             </RadioGroup>
+            {error && <FormHelperText>Please select one option</FormHelperText>}
             <Button type="submit" variant="outlined" color="primary" className={classes.button}>
               Submit
             </Button>
