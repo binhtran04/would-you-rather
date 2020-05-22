@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { makeStyles, Avatar, Button, AppBar, Toolbar, Typography, Link } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import { setAuthedUser } from '../actions/authedUser';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,10 +29,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Nav = ({ user }) => {
+const Nav = ({ user, dispatch }) => {
   const classes = useStyles();
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    dispatch(setAuthedUser(null));
+  };
 
   return (
     <AppBar position="static">

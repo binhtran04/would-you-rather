@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import {
   makeStyles,
   Card,
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Signin = ({ users, dispatch, history }) => {
+const Signin = ({ users, dispatch, isLogedin }) => {
   const classes = useStyles();
   const [authedUser, setAuthedUser] = React.useState(null);
   const [error, setError] = React.useState(false);
@@ -55,11 +56,14 @@ const Signin = ({ users, dispatch, history }) => {
     if (authedUser) {
       setError(false);
       dispatch(setAuthedUserAction(authedUser));
-      history.push('/');
     } else {
       setError(true);
     }
   };
+
+  if (isLogedin) {
+    return <Redirect to="/" />;
+  }
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -95,7 +99,7 @@ const Signin = ({ users, dispatch, history }) => {
   );
 };
 
-function mapStateToProps({ users }) {
+function mapStateToProps({ users, authedUser }) {
   const formattedUsers = Object.keys(users).map((id) => {
     const user = users[id];
     return {
@@ -107,6 +111,7 @@ function mapStateToProps({ users }) {
 
   return {
     users: formattedUsers,
+    isLogedin: authedUser ? true : false,
   };
 }
 

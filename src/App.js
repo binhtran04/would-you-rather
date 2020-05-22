@@ -10,7 +10,7 @@ import PollPage from './components/PollPage';
 import NewQuestion from './components/NewQuestion';
 import LeaderBoard from './components/LeaderBoard';
 import Signin from './components/Signin';
-import './App.css';
+import PrivateRoute from './components/PrivateRoute';
 
 class App extends React.Component {
   componentDidMount() {
@@ -24,15 +24,11 @@ class App extends React.Component {
           <Nav />
           <LoadingBar />
           <Container fixed maxWidth="sm">
-            {this.props.loading === true ? null : (
-              <>
-                <Route path="/" exact component={Dashboard} />
-                <Route path="/questions/:id" component={PollPage} />
-                <Route path="/add" component={NewQuestion} />
-                <Route path="/leaderboard" component={LeaderBoard} />
-                <Route path="/signin" component={Signin} />
-              </>
-            )}
+            <PrivateRoute path="/" exact component={Dashboard} />
+            <PrivateRoute path="/questions/:id" component={PollPage} />
+            <PrivateRoute path="/add" component={NewQuestion} />
+            <PrivateRoute path="/leaderboard" component={LeaderBoard} />
+            <Route path="/signin" component={Signin} />
           </Container>
         </>
       </BrowserRouter>
@@ -42,7 +38,7 @@ class App extends React.Component {
 
 function mapStateToProps({ authedUser }) {
   return {
-    loading: authedUser === null,
+    authedUser,
   };
 }
 
